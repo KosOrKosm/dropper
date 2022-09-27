@@ -26,18 +26,23 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 // Host public folder
-var path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
+var path = require('path')
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Index
 app.get('/', (req, res) => {
     res.status(200).json("Test")
-});
+})
+
+// Host API
+var api = require('./api')
+app.use("/api", api)
 
 // basic error handling router
 app.use(function(req, res, next) {
+    console.log("[%s] Unsupported path: %s", new Date(Date.now()).toLocaleString(), req.url)
     res.status(400).json("error")
-});
+})
 
 app.listen(app.get('port'), () => {
     console.log("Dropper API server now active")
