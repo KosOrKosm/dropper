@@ -4,8 +4,27 @@ const router = express.Router()
 
 // Config AWS
 var aws = require('aws-sdk')
-aws.config.region = process.env.REGION // || 'us-east-1'
-const db = new aws.DynamoDB()
+aws.config.region = 'us-west-1'
+const db = new aws.DynamoDB.DocumentClient()
+
+function getSingleton(table, params) {
+    var aliasNames = {}, aliasValues = {}
+    var filter = ''
+    for (const [key, value] of Object.entries(params)) {
+        var nameAlias = `#${key}`, valueAlias = `:${key}Val`
+        aliasNames[nameAlias] = key
+        aliasValues[valueAlias] = value
+        filter += `${nameAlias} = ${valueAlias} and`
+    }
+    console.log(aliasValues)
+    filter = filter.substring(0, filter.length - 4)
+    return {
+        'TableName': table,
+        'FilterExpression': filter,
+        ExpressionAttributeNames: aliasNames,
+        ExpressionAttributeValues: aliasValues
+    }
+}
 
 router
 .use((req, res, next) => {
@@ -22,19 +41,22 @@ router
             "Error. Invalid Login."
         )
     } else {
-        const doQuery = async() => { 
-            const result = await db.getItem({
-                TableName: "User_Information",
-                Key: {
-                    "Name": {"S": req.body.user},
-                    "Password": {"S": req.body.pass}
-                }
-            }).promise()
-            
-            res.status(200).json(result)
-        }
-        // TODO: do not send errors in final build
-        doQuery().catch((error) => {
+        db.scan(getSingleton(
+            'User_Information',
+            {
+                "username": req.body.user,
+                "password": req.body.pass
+            }
+        )).promise()
+        .then((result) => {
+            if (result.Items && result.Items.length > 0)
+                res.status(200).json({
+                    msg: "Login successful!",
+                    user: result.Items[0].username
+                })
+        })
+        .catch((error) => {
+            // TODO: remove from final version
             res.status(400).json(error)
         })
     }
