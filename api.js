@@ -1,6 +1,7 @@
 
 const express = require('express')
 const router = express.Router()
+const { v4: uuid } = require('uuid');
 
 // Config AWS
 var aws = require('aws-sdk')
@@ -44,6 +45,7 @@ router
     db.put({
         TableName: 'User_Information',
         Item: {
+            'user-id': 15, //uuid(),
             username: req.body.user,
             password: req.body.pass
         }
