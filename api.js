@@ -34,6 +34,23 @@ router
 })
 
 router
+.route("/account")
+.post((req, res) => {
+    if (!req.body || !req.body.user || !req.body.pass) {
+        res.status(400).json(
+            "Error. Missing Arguments."
+        )
+    }
+    db.put({
+        TableName: 'User_Information',
+        Item: {
+            username: req.body.user,
+            password: req.body.pass
+        }
+    })
+})
+
+router
 .route("/login")
 .post((req, res) => {
     if (!req.body || !req.body.user || !req.body.pass) {
