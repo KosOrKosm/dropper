@@ -47,6 +47,13 @@ router
             username: req.body.user,
             password: req.body.pass
         }
+    }).promise()
+    .then((result) => {
+        res.status(200).json('Success!')
+    })
+    .catch((error) => {
+        // TODO: remove from final version
+        res.status(400).json(error)
     })
 })
 
