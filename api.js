@@ -1,12 +1,11 @@
 
 const express = require('express')
+const cookies = require('cookie-parser')
 const router = express.Router()
-const { v4: uuid } = require('uuid');
+router.use(cookies)
 
-// Config AWS
-var aws = require('aws-sdk');
-aws.config.region = 'us-west-1'
-const db = new aws.DynamoDB.DocumentClient()
+const { v4: uuid } = require('uuid');
+const db = require('./db')
 
 function getSingleton(table, params) {
     var aliasNames = {}, aliasValues = {}
@@ -112,13 +111,45 @@ router
         // Query succeeded
         // Check if we found anything
         if (result.Count != undefined && result.Count > 0) {
+
             // Account found. Attempt to login
-            id = result.Items[0]['user-id']
-            user = result.Items[0]['username']
-            // TODO: create a session and assign to a cookie in response
-            res.status(200).json({
-                msg: "Login successful!",
-                user: user
+
+            const timeout_dur = 60 * 15 // 15 minutes
+            const unix_now = Math.floor(Date.now() / 1000)
+
+            const user = result.Items[0]['username']
+            const user_id = result.Items[0]['user-id']
+            const user_session = uuid()
+            const user_timeout = unix_now + timeout_dur
+
+            // Provision a session for this login
+            db.put({
+                TableName: 'sessions',
+                Item: {
+                    'user-id': user_id,
+                    'session-id': user_session,
+                    'timeout': user_timeout
+                }
+            }).promise()
+            .then((result) => {
+                res
+                .cookie(
+                    'session',
+                    user_session,
+                    {maxAge: timeout_dur * 1000}
+                )
+                .status(200)
+                .json({
+                    msg: "Login successful!",
+                    user: user,
+                    session: user_session,
+                    expires: user_timeout
+                })
+            })
+            .catch((error) => {
+                // Failed to put. Server error
+                // TODO: remove from final version
+                res.status(500).json(error)
             })
         } else {
             // We found nothing. Client error
