@@ -1,2 +1,2 @@
 # Dropper
-Dropbox-like service in AWS. Creayted for CPSC 454
+Dropbox-like service in AWS. Created for CPSC 454
