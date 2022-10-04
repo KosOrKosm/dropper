@@ -1,9 +1,11 @@
 
 // Create server
-var express = require('express');
+const express = require('express');
+const cookies = require('cookie-parser')
 var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookies())
 
 // Get port
 function normalizePort(val) {
@@ -29,14 +31,21 @@ app.set('port', port);
 var path = require('path')
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Host Login API.
+var loginapi = require('./loginapi')
+app.use("/api", loginapi)
+
+// Use to lock behind login sessions
+var session_lock = require('./session_lock')
+
+// Host File Upload API
+var fileapi = require('./fileapi')
+app.use("/api/file", session_lock, fileapi)
+
 // Index
-app.get('/', (req, res) => {
+app.get('/', session_lock, (req, res) => {
     res.status(200).json("Test")
 })
-
-// Host API
-var api = require('./api')
-app.use("/api", api)
 
 // basic error handling router
 app.use(function(req, res, next) {
