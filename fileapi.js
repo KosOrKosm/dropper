@@ -1,6 +1,8 @@
 
 const express = require('express')
 const cookies = require('cookie-parser')
+const multer = require('multer')
+const uploadHandler = multer({ storage: multer.memoryStorage() })
 const router = express.Router()
 router.use(cookies())
 
@@ -32,24 +34,37 @@ router
 
 router
 .route('/upload')
-.post(async (req, res) => {
-    var bucketErr = await guarenteeUserBucket(req.body.user)
+.post(uploadHandler.single('file'), async (req, res) => {
+    var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
         // TODO: Do not send raw errors in final version
         res.status(500).json(bucketErr)
+        return
     }
+    s3.upload({
+        Bucket: req.user,
+        Key: req.file.originalname,
+        Body: req.file.buffer.buffer
+    }).promise()
+    .then((result) => {
+        res.status(200).send("File succesfully uploaded")
+    })
+    .catch((err) => {
+        // TODO: Do not send raw errors in final version
+        res.status(500).json(err)
+    })
 })
 
 router
 .route('/download')
 .get(async (req, res) => {
-    var bucketErr = await guarenteeUserBucket(req.body.user)
+    var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
         // TODO: Do not send raw errors in final version
         res.status(500).json(bucketErr)
     }
     s3.getObject({
-        Bucket: req.body.user,
+        Bucket: req.user,
         Key: req.query.file
     }).promise()
     .then((file) => {
