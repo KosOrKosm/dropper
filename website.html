@@ -8,13 +8,37 @@
                 <title> Dropper </title>
                 <link rel="stylesheet" href="style.css">
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
             </head>
             <body>
+                <main class="pa4 white-80">
+                    <form class="measure center">
+                      <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
+                        <legend class="f4 fw6 ph0 mh0">Sign In</legend>
+                        <div class="mt3">
+                          <label class="db fw6 lh-copy f6" for="email-address">Email</label>
+                          <input class="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address">
+                        </div>
+                        <div class="mv3">
+                          <label class="db fw6 lh-copy f6" for="password">Password</label>
+                          <input class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password">
+                        </div>
+                        <label class="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"> Remember me</label>
+                      </fieldset>
+                      <div class="">
+                        <input class="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 dib white" type="submit" value="Sign in">
+                      </div>
+                      <div class="lh-copy mt3">
+                        <a href="#0" class="f6 link dim white db">Sign up</a>
+                        <a href="#0" class="f6 link dim white db">Forgot your password?</a>
+                      </div>
+                    </form>
+                  </main>
                 <nav>
                     <ul>
                         <li>
                             <a href="#" class="logo">
-                                <img src="flopbox-logo.jpg" alt="">
+                                <img src="Dropper-logo.png" alt="">
                                 <span class="nav-item"> Dropper </span>
                             </a>
                         </li>
