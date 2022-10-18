@@ -33,8 +33,8 @@ router
 })
 
 router
-.route('/upload')
-.post(uploadHandler.single('file'), async (req, res) => {
+.route('/')
+.put(uploadHandler.single('file'), async (req, res) => {
     var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
         // TODO: Do not send raw errors in final version
@@ -44,7 +44,7 @@ router
     s3.upload({
         Bucket: req.user,
         Key: req.file.originalname,
-        Body: req.file.buffer.buffer
+        Body: req.file.buffer
     }).promise()
     .then((result) => {
         res.status(200).send("File succesfully uploaded")
@@ -56,7 +56,7 @@ router
 })
 
 router
-.route('/download')
+.route('/')
 .get(async (req, res) => {
     var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
@@ -68,15 +68,51 @@ router
         Key: req.query.file
     }).promise()
     .then((file) => {
+
+        // Send the file as binary data in its preferred content type
         res
         .status(200)
-        .json({
-            'content-type': file.ContentType,
-            'content': file.Body
-        })
+        .setHeader('Content-Type', file.ContentType)
+        .send(file.Body)
+        
     })
     .catch((err) => {
         res.status(400).json(`Could not find a file named ${req.query.file}`)
+    })
+})
+
+const safeFileMetadata = [
+    'Key',
+    'LastModified',
+    'Size'
+]
+
+router
+.route('/all')
+.get(async (req, res) => {
+    var bucketErr = await guarenteeUserBucket(req.user)
+    if(bucketErr) {
+        // TODO: Do not send raw errors in final version
+        res.status(500).json(bucketErr)
+        return
+    }
+    s3.listObjectsV2({
+        Bucket: req.user
+    }).promise()
+    .then((items) => {
+
+        // Cleanup the metadata to remove AWS internal info
+        items.Contents.forEach(item => {
+            for (const [key, value] of Object.entries(item)) {
+                if (safeFileMetadata.find((safeKey) => safeKey == key) == undefined)
+                    delete item[key]
+            }
+        })
+        res.status(200).json(items.Contents)
+    })
+    .catch((err) => {
+        // TODO: Do not send raw errors in final version
+        res.status(500).json(err)
     })
 })
 

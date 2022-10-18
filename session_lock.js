@@ -59,7 +59,7 @@ router.use((req, res, next) => {
             // purgeOldSessions(inTable['user-id'])
             if (inTable.timeout > unixnow()) {
                 // set the user of the current session for future reference
-                req.body.user = inTable['user-id'] 
+                req.user = inTable['user-id'] 
                 next()
             } else {
                 res.status(401).json("Session expired. Please login.")

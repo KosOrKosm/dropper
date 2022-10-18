@@ -47,6 +47,18 @@ app.get('/', session_lock, (req, res) => {
     res.status(200).json("Test")
 })
 
+// TODO: remove
+// File Upload Test
+app.get('/fileuploadtest', (req, res) => {
+    res.status(200).sendFile('/test.html', { root: __dirname })
+})
+app.get('/logintest', (req, res) => {
+    res.status(200).sendFile('/tmp_login.html', { root: __dirname })
+})
+app.get('/test.js', (req, res) => {
+    res.status(200).sendFile('/test.js', { root: __dirname })
+})
+
 // basic error handling router
 app.use(function(req, res, next) {
     console.log("[%s] Unsupported path: %s", new Date(Date.now()).toLocaleString(), req.url)
@@ -54,5 +66,6 @@ app.use(function(req, res, next) {
 })
 
 app.listen(app.get('port'), () => {
-    console.log("Dropper API server now active")
+    console.log("Dropper API server now active.")
+    console.log("Access at: http://localhost:3000")
 })
