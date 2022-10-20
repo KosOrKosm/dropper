@@ -1,11 +1,14 @@
 
 // Create server
-const express = require('express');
+const express = require('express')
 const cookies = require('cookie-parser')
-var app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const cors = require('cors')
+var path = require('path')
+var app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(cookies())
+app.use(cors())
 
 // Get port
 function normalizePort(val) {
@@ -27,13 +30,31 @@ function normalizePort(val) {
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-// Host public folder
-var path = require('path')
-app.use(express.static(path.join(__dirname, 'public')))
+// =================================================================
+// ========================= PUBLIC ASSETS =========================
+// =================================================================
+
+// Host publc assets
+app.use('/assets/public', express.static('assets/public'))
 
 // Host Login API.
 var loginapi = require('./api/public/loginapi')
 app.use("/api", loginapi)
+
+// Index
+app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'html/index.html'))
+})
+
+// Login Page
+app.get('/login', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'html/website.html'))
+})
+
+
+// ================================================================
+// ======================= PROTECTED ASSETS =======================
+// ================================================================
 
 // Use to lock behind login sessions
 var session_lock = require('./api/session_lock')
@@ -41,23 +62,6 @@ var session_lock = require('./api/session_lock')
 // Host File Upload API
 var fileapi = require('./api/fileapi')
 app.use("/api/file", session_lock, fileapi)
-
-// Index
-app.get('/', session_lock, (req, res) => {
-    res.status(200).json("Test")
-})
-
-// TODO: remove
-// File Upload Test
-app.get('/fileuploadtest', (req, res) => {
-    res.status(200).sendFile('/test.html', { root: __dirname })
-})
-app.get('/logintest', (req, res) => {
-    res.status(200).sendFile('/tmp_login.html', { root: __dirname })
-})
-app.get('/test.js', (req, res) => {
-    res.status(200).sendFile('/test.js', { root: __dirname })
-})
 
 // basic error handling router
 app.use(function(req, res, next) {

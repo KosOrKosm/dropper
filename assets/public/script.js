@@ -38,7 +38,7 @@ let password = "admin";
 // })
 
 setUserAndPass = () => {
-    user = document.getElementById('email-address').value;
+    user = document.getElementById('username').value;
     pass = document.getElementById('password').value;
     console.log(user);
     console.log(pass);
