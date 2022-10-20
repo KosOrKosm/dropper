@@ -114,7 +114,7 @@ router
 
             // Account found. Attempt to login
 
-            const timeout_dur = 60 * 15 // 15 minutes
+            const timeout_dur = 60 * 45 // 15 minutes
             const unix_now = Math.floor(Date.now() / 1000)
 
             const user = result.Items[0]['username']
