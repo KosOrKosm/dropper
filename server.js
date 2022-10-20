@@ -32,14 +32,14 @@ var path = require('path')
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Host Login API.
-var loginapi = require('./loginapi')
+var loginapi = require('./api/public/loginapi')
 app.use("/api", loginapi)
 
 // Use to lock behind login sessions
-var session_lock = require('./session_lock')
+var session_lock = require('./api/session_lock')
 
 // Host File Upload API
-var fileapi = require('./fileapi')
+var fileapi = require('./api/fileapi')
 app.use("/api/file", session_lock, fileapi)
 
 // Index

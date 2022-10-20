@@ -4,7 +4,7 @@ const cookies = require('cookie-parser')
 const router = express.Router()
 router.use(cookies())
 
-const { db } = require('./db')
+const { db } = require('../db')
 const { v4: uuid } = require('uuid')
 
 function getSingleton(table, params) {
