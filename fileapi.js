@@ -8,6 +8,8 @@ router.use(cookies())
 
 const { db, s3 } = require('./db')
 
+// Verifies the given user ID has a s3 bucket, creating
+// the bucket if it is missing. Returns null if succesful.
 async function guarenteeUserBucket(user) {
     try {
 
@@ -32,6 +34,7 @@ router
     next()
 })
 
+// PUT api/file
 router
 .route('/')
 .put(uploadHandler.single('file'), async (req, res) => {
@@ -55,6 +58,7 @@ router
     })
 })
 
+// GET api/file
 router
 .route('/')
 .get(async (req, res) => {
@@ -74,7 +78,7 @@ router
         .status(200)
         .setHeader('Content-Type', file.ContentType)
         .send(file.Body)
-        
+
     })
     .catch((err) => {
         res.status(400).json(`Could not find a file named ${req.query.file}`)
@@ -87,6 +91,7 @@ const safeFileMetadata = [
     'Size'
 ]
 
+// GET api/file/all
 router
 .route('/all')
 .get(async (req, res) => {
