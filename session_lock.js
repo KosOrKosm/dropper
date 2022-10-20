@@ -34,9 +34,11 @@ async function purgeOldSessions() {
         })
     }
     
-    await db.batchWrite({
-        RequestItems: batch
-    }).promise()
+    if (batch.sessions.length > 0) {
+        await db.batchWrite({
+            RequestItems: batch
+        }).promise()
+    }
 
 }
 
