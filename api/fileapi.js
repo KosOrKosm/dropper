@@ -59,8 +59,6 @@ router
 })
 
 // GET api/file
-router
-.route('/')
 .get(async (req, res) => {
     var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
@@ -80,6 +78,23 @@ router
         .send(file.Body)
 
     })
+    .catch((err) => {
+        res.status(400).json(`Could not find a file named ${req.query.file}`)
+    })
+})
+
+// DELETE api/file
+.delete(async (req, res) => {
+    var bucketErr = await guarenteeUserBucket(req.user)
+    if(bucketErr) {
+        // TODO: Do not send raw errors in final version
+        res.status(500).json(bucketErr)
+    }
+    s3.deleteObject({
+        Bucket: req.user,
+        Key: req.query.file
+    }).promise()
+    .then((file) => res.status(200).send("Success!"))
     .catch((err) => {
         res.status(400).json(`Could not find a file named ${req.query.file}`)
     })
