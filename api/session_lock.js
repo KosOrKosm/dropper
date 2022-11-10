@@ -50,7 +50,7 @@ router.use((req, res, next) => {
         console.log("Entering session lock check")
         const session = req.cookies.session
         if (session == undefined) {
-            res.status(401).json("No session found. Please login.")
+            res.redirect('login')
             return
         }
 
@@ -67,10 +67,10 @@ router.use((req, res, next) => {
                     req.user = inTable['user-id'] 
                     next()
                 } else {
-                    res.status(401).json("Session expired. Please login.")
+                    res.redirect('login')
                 }
             } else {
-                res.status(401).json("No session found. Please login.")
+                res.redirect('login')
             }
         })
         .catch((error) => {
