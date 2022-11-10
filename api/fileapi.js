@@ -64,6 +64,7 @@ router
     if(bucketErr) {
         // TODO: Do not send raw errors in final version
         res.status(500).json(bucketErr)
+        return
     }
     s3.getObject({
         Bucket: req.user,
@@ -89,6 +90,7 @@ router
     if(bucketErr) {
         // TODO: Do not send raw errors in final version
         res.status(500).json(bucketErr)
+        return
     }
     s3.deleteObject({
         Bucket: req.user,
