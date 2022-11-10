@@ -63,6 +63,11 @@ var session_lock = require('./api/session_lock')
 var fileapi = require('./api/fileapi')
 app.use("/api/file", session_lock, fileapi)
 
+// File View UI
+app.get('/files', session_lock, (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'html/ui_files.html'))
+})
+
 // basic error handling router
 app.use(function(req, res, next) {
     console.log("[%s] Unsupported path: %s", new Date(Date.now()).toLocaleString(), req.url)
