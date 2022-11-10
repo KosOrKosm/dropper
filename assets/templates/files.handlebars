@@ -1,3 +1,26 @@
 {{#each files}}
-<b>{{Key}}</b><input type="button" href="{{Key}}" value="Download"><br>
+<div class="row file-man-fileroot">
+    <div class="col-lg-3 col-xl-2">
+        <div class="file-man-box">
+            <a href="" class="file-close">
+                <i class="fa fa-times-circle"></i>
+            </a>
+            <div class="file-img-box">
+                {{#if Ext}}
+                <img src="https://coderthemes.com/highdmin/layouts/assets/images/file_icons/{{Ext}}.svg" alt="icon">
+                {{else}}
+                <img src="https://coderthemes.com/highdmin/layouts/assets/images/file_icons/txt.svg" alt="icon">
+                {{/if}}
+            </div>
+            <a href="../api/file?file={{Key}}" download="{{Key}}" class="file-download">
+                <i class="fa fa-download"></i>
+                Download
+            </a>
+            <div class="file-man-title">
+                <h5 class="mb-0 text-overflow">{{Key}}</h5>
+                <p class="mb-0"><small>{{Size}} bytes</small></p>
+            </div>
+        </div>
+    </div>
+</div>
 {{/each}}

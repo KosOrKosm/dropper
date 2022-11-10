@@ -3,7 +3,7 @@ window.addEventListener('load', async (ev) => {
 
     try {
 
-        let files_container = document.getElementById('file-container')
+        let files_container = document.getElementById('files-list-container')
 
         // Get the template
         let template = Handlebars.compile(await doRequest(
@@ -12,17 +12,18 @@ window.addEventListener('load', async (ev) => {
         ))
 
         // Get files from the API
-        let files = {
+        let data = {
             files: JSON.parse(await doRequest(
                 'GET', 
                 '../api/file/all'
             ))
         }
 
-        console.log(files)
+        // Extract file extensions
+        data.files.forEach(f => f.Ext = /(?:\.([^.]+))?$/.exec(f.Key)[1])
 
         // Construct a file list from the template and send to container
-        files_container.innerHTML = template(files)
+        files_container.innerHTML += template(data)
 
     } catch (err) {
 

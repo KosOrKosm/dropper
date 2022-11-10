@@ -24,6 +24,7 @@ nav {
     overflow: hidden;
     transition: width 0.2s linear;
     box-shadow: 0 20px 35px rgba(0, 0 ,0, 0.1);
+    z-index: 9;
 }
 
 .logo {
@@ -126,7 +127,7 @@ body{
 
 .file-man-box .file-img-box {
     line-height: 120px;
-    text-align: center
+    text-align: left
 }
 
 .file-man-box .file-img-box img {
@@ -137,7 +138,8 @@ body{
     font-size: 32px;
     color: #98a6ad;
     position: absolute;
-    right: 10px
+    right: 10px;
+    width: fit-content;
 }
 
 .file-man-box .file-download:hover {
@@ -154,7 +156,8 @@ body{
 }
 
 .file-man-box:hover .file-close {
-    visibility: visible
+    visibility: visible;
+    width: fit-content
 }
 .text-overflow {
     text-overflow: ellipsis;
