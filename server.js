@@ -63,6 +63,9 @@ var session_lock = require('./api/session_lock')
 var fileapi = require('./api/fileapi')
 app.use("/api/file", session_lock, fileapi)
 
+// Host Templates
+app.use('/assets/templates', session_lock, express.static('assets/templates'))
+
 // File View UI
 app.get('/files', session_lock, (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'html/ui_files.html'))
