@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 
 // Login Page
 app.get('/login', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'html/website.html'))
+    res.status(200).sendFile(path.join(__dirname, 'html/ui_login.html'))
 })
 
 
