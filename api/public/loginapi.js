@@ -159,4 +159,48 @@ router
     })
 })
 
+async function logOutSessions(req,res) {
+    console.log('Removing User Device Session for Logging Out.')
+    //making sure the sessions exist to begin with
+    if(req.cookies.session != undefined){
+        const batch = {
+            'sessions': []
+        }
+            batch.sessions.push({
+                //passing the session as the key to be deleted
+                'DeleteRequest': {
+                    Key: { 'session-id': req.cookies.session}
+                }
+            })
+        if (batch.sessions.length > 0) {
+            db.batchWrite({
+                RequestItems: batch
+            }).promise()
+            .then((result) => {
+                res
+                    //clearing the browsers cookie to be blank
+                    .clearCookie('session')
+                    .status(200)
+                    .json({
+                        msg: "Logout successful! Session was removed." 
+                    })
+            })
+            .catch((error) => {
+                //Error with the request
+                res.status(500).json('Failed to delete. Server Error')
+            })
+        }
+    } else {
+        //Session did not exist
+    res.status(400).json('Session does not exist')
+    }
+
+}
+
+router
+.route('/logout')
+//sending the route straight to the logging out function
+.delete(logOutSessions)
+
+
 module.exports = router

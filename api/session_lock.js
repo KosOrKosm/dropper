@@ -75,7 +75,7 @@ router.use((req, res, next) => {
         })
         .catch((error) => {
             // TODO: do not send raw errors to client
-            res.status(500).json(error)
+            res.status(500).json('Session Id error. Server Error.')
         })
     })
 
