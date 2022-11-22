@@ -8,8 +8,9 @@ window.addEventListener('load', (ev) => {
 
         let user_in = document.getElementById('input-username')
         let pass_in = document.getElementById('input-password')
+        let popup = document.getElementById("popup")
         var api_root = '../api'
-    
+        
         // Submit the login
         doRequest(
             'POST', 
@@ -26,6 +27,13 @@ window.addEventListener('load', (ev) => {
         user_in.value = ''
         pass_in.value = ''
 
+        // Popup Functionality - Incorrect User/Password
+        function openPopup() {
+            popup.classList.add("open-popup");
+        }
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
     })
 
 })

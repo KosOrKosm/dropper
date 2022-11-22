@@ -64,7 +64,7 @@
           <input class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password"
             name="password" id="input-password">
         </div>
-        <label class="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"> Remember me</label>
+        <label class="pa0 ma0 lh-copy f6 pointer"><input type="checkbox">Remember me</label>
       </fieldset>
       <div class="">
         <input class="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 dib white" type="submit"
@@ -74,8 +74,13 @@
         <a href="#0" class="f6 link dim white db">Sign up</a>
         <a href="#0" class="f6 link dim white db">Forgot your password?</a>
       </div>
+      <div class="popup" id="popup">
+        <img src="../assets/public/x-icon.png"> 
+        <h2> Try Again! </h2>
+        <p> Please enter the correct username or password. </p>
+        <button type="button" onclick="closePopup()"> OK </button>
+      </div>
     </form>
   </main>
 </body>
-
 </html>
