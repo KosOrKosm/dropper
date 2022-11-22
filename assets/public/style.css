@@ -179,3 +179,25 @@ ul li.li6 {
    position: absolute;
    bottom: 0;
 }
+
+.btn-warning {
+    position: relative;
+    padding: 8px 10px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ffc100;
+    border: 0;
+}
+.btn-warning input[type="file"] {
+    cursor: pointer;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    transform: scale(3);
+    opacity: 0;
+}
+.btn-warning:hover {
+    background: #d9a400;
+}
