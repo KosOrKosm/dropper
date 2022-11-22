@@ -75,14 +75,12 @@ router
         })
         .catch((error) => {
             // Failed to put. Server error
-            // TODO: remove from final version
-            res.status(500).json(error)
+            res.status(500).json('Failed to put new account. Server failure.')
         })
     })
     .catch((error) => {
         // Failed to query. Server error
-        // TODO: remove from final version
-        res.status(500).json(error)
+        res.status(500).json('The request failed to query. Server failure.')
     })
 })
 
@@ -148,8 +146,7 @@ router
             })
             .catch((error) => {
                 // Failed to put. Server error
-                // TODO: remove from final version
-                res.status(500).json(error)
+                res.status(500).json('Failed to scan for user. Server Error.')
             })
         } else {
             // We found nothing. Client error
@@ -158,8 +155,7 @@ router
     })
     .catch((error) => {
         // Failed to query. Server error
-        // TODO: remove from final version
-        res.status(500).json(error)
+        res.status(500).json('Scan request could not query. Server Error.')
     })
 })
 
