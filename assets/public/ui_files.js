@@ -1,9 +1,16 @@
 
-window.addEventListener('load', async (ev) => {
+
+async function refreshFiles() {
+
+    let files_container = document.getElementById('files-list-container')
+
+    let existingFiles = files_container.getElementsByClassName('file-man-fileroot')
+
+    for (var i = 0; i < existingFiles.length; ++i) {
+        files_container.removeChild(existingFiles.item(i))
+    }
 
     try {
-
-        let files_container = document.getElementById('files-list-container')
 
         // Get the template
         let template = Handlebars.compile(await doRequest(
@@ -34,5 +41,49 @@ window.addEventListener('load', async (ev) => {
             alert("Unable to load files. Please try again.")
         }
     }
+
+    document.getElementById('upload-btn').addEventListener('click', (ev) => {
+        
+        ev.preventDefault()
+
+        console.log('Waiting for file')
+
+        var fileReq = document.createElement('input')
+        fileReq.type = 'file'
+        fileReq.name = 'file'
+        fileReq.onchange = () => {
+            if (fileReq.files != undefined && fileReq.files[0] != undefined) {
+
+                console.log(`Attempting to upload file ${fileReq.files[0].name}`)
+
+                let file = fileReq.files[0]
+                var data = new FormData()
+                data.set('file', file, file.name)
+    
+                doRequest(
+                    'PUT',
+                    '../api/file',
+                    data
+                )
+                .then(res => {
+                    alert('Upload succeeded')
+                    refreshFiles()
+                })
+                .catch(err => {
+                    alert('Upload failed')
+                })
+    
+            }
+
+        }
+        fileReq.click()
+
+    })
+
+}
+
+window.addEventListener('load', (ev) => {
+
+    refreshFiles()
 
 })
