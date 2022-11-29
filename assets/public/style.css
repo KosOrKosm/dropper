@@ -247,3 +247,18 @@ ul li.li6 {
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+#login_notification.hidden {
+    overflow: hidden;
+    padding: 0px;
+    max-height: 0px; 
+    transition: all 0.5s ease-in;
+}
+
+
+#login_notification.active {
+    overflow: hidden;
+    padding: 5px;
+    max-height: 30px;
+    transition: all 0.5s ease-out;
+}

@@ -53,7 +53,9 @@
   <main class="pa4 white-80">
     <form class="measure center">
       <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
-        <legend class="f4 fw6 ph0 mh0">Sign In</legend>
+        <legend id="login_form_label" class="f4 fw6 ph0 mh0">Sign In</legend>
+        <div class="mt3 b hidden" id="login_notification">
+        </div>
         <div class="mt3">
           <label class="db fw6 lh-copy f6" for="username">Username</label>
           <input class="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text"
@@ -74,12 +76,14 @@
         <a href="#0" class="f6 link dim white db">Sign up</a>
         <a href="#0" class="f6 link dim white db">Forgot your password?</a>
       </div>
+      <!--
       <div class="popup" id="popup">
         <img src="../assets/public/x-icon.png"> 
         <h2> Try Again! </h2>
         <p> Please enter the correct username or password. </p>
         <button type="button" onclick="closePopup()"> OK </button>
       </div>
+      -->
     </form>
   </main>
 </body>
