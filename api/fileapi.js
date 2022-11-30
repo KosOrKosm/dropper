@@ -40,8 +40,11 @@ router
 .put(uploadHandler.single('file'), async (req, res) => {
     var bucketErr = await guarenteeUserBucket(req.user)
     if(bucketErr) {
-        // TODO: Do not send raw errors in final version
-        res.status(500).json(bucketErr)
+        res.status(500).send('Internal server error.')
+        return
+    }
+    if (req.file == undefined) {
+        res.status(400).send('No file sent.')
         return
     }
     s3.upload({

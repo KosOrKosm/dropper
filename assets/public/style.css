@@ -1,4 +1,4 @@
-/* */
+
 @import url("https://fonts.google.apis.com/css2?family=Poppings:wght@400;500;600;700&display=swap");
 *{
     margin: 0;
@@ -168,4 +168,97 @@ body{
 }
 h5 {
     font-size: 15px;
+}
+
+ul {
+    position: relative;
+    height: 700px;
+}
+
+ul li.li6 {
+   position: absolute;
+   bottom: 0;
+}
+/* Upload File Button */
+.btn-warning {
+    position: relative;
+    padding: 8px 10px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ffc100;
+    border: 0;
+}
+.btn-warning input[type="file"] {
+    cursor: pointer;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    transform: scale(3);
+    opacity: 0;
+}
+.btn-warning:hover {
+    background: #d9a400;
+}
+
+/* Try Again (Incorrect User/Password) Pop-up scale(0.1)*/
+.popup {
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    text-align: center; 
+    padding: 0 30px 30px; 
+    color: #333;
+    /* testing purposes - remove the following to see the pop-up */
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+.popup img {
+    width: 100px;
+    margin-top: -50px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+}
+.popup h2 {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 30px 0 10px;
+}
+.popup button {
+    width: 100%;
+    margin-top: 50px;
+    padding: 10px 0;
+    background:#f44434;
+    color: #fff;
+    border: 0;
+    outline: none;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#login_notification.hidden {
+    overflow: hidden;
+    padding: 0px;
+    max-height: 0px; 
+    transition: all 0.5s ease-in;
+}
+
+
+#login_notification.active {
+    overflow: hidden;
+    padding: 5px;
+    max-height: 30px;
+    transition: all 0.5s ease-out;
 }
