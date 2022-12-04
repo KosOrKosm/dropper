@@ -101,7 +101,9 @@ router
         Bucket: req.user,
         Key: req.query.file
     }).promise()
-    .then((file) => res.status(200).send("Success!"))
+    .then((file) => res.status(200).json({
+        msg: "Success!"
+    }))
     .catch((err) => {
         res.status(400).json(`Could not find a file named ${req.query.file}`)
     })
