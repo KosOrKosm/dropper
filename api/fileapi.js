@@ -53,7 +53,9 @@ router
         Body: req.file.buffer
     }).promise()
     .then((result) => {
-        res.status(200).send("File succesfully uploaded")
+        res.status(200).json({
+            msg: `Uploaded ${req.file.originalname} successfully.`
+        })
     })
     .catch((err) => {
         // TODO: Do not send raw errors in final version
@@ -99,7 +101,9 @@ router
         Bucket: req.user,
         Key: req.query.file
     }).promise()
-    .then((file) => res.status(200).send("Success!"))
+    .then((file) => res.status(200).json({
+        msg: "Success!"
+    }))
     .catch((err) => {
         res.status(400).json(`Could not find a file named ${req.query.file}`)
     })

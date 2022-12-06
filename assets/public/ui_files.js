@@ -4,10 +4,8 @@ async function refreshFiles() {
 
     let files_container = document.getElementById('files-list-container')
 
-    let existingFiles = files_container.getElementsByClassName('file-man-fileroot')
-
-    for (var i = 0; i < existingFiles.length; ++i) {
-        files_container.removeChild(existingFiles.item(i))
+    while(files_container.getElementsByClassName('file-man-fileroot').length > 0) {
+        files_container.removeChild(files_container.getElementsByClassName('file-man-fileroot')[0])
     }
 
     try {
@@ -85,5 +83,15 @@ async function refreshFiles() {
 window.addEventListener('load', (ev) => {
 
     refreshFiles()
+
+    window.deleteFile = (filename) => {
+        doRequest(
+            'DELETE', 
+            `../api/file?file=${filename}`
+        ).then(() => {
+            console.log("File deleted")
+            refreshFiles()
+        })
+    }
 
 })
